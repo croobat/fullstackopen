@@ -32,12 +32,26 @@ const App = () => {
     });
   };
 
+  const [maxPoints, anecdoteWithMaxPoints] = points.reduce(
+    ([maxPoints, anecdoteWithMaxPoints], points, index) => {
+      if (points > maxPoints) {
+        return [points, anecdotes[index]];
+      }
+      return [maxPoints, anecdoteWithMaxPoints];
+    },
+    [0, '']
+  );
+
   return (
     <>
-      <Button onClick={handleNext} text="next anecdote" />
-      <Button onClick={handleVote} text="vote" />
+      <h1>Anecdote of the day</h1>
       <p>{anecdotes[selected]}</p>
       <p>has {points[selected]} votes</p>
+      <Button onClick={handleNext} text="next anecdote" />
+      <Button onClick={handleVote} text="vote" />
+      <h1>Anecdote with most votes</h1>
+      <p>{anecdoteWithMaxPoints}</p>
+      <p>has {maxPoints} votes</p>
     </>
   );
 };
