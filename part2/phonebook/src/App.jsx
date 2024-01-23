@@ -7,11 +7,16 @@ import Filter from './components/Filter';
 import PersonForm from './components/PersonForm';
 import Person from './components/Person';
 
-const Persons = ({ persons }) => {
+const Persons = ({ persons, onRemove }) => {
   return (
     <>
       {persons.map((person) => {
-        return <Person key={person.id} person={person} />;
+        return (
+          <div key={person.id} style={{ display: 'flex' }}>
+            <button onClick={() => onRemove(person.id)}>delete</button>
+            <Person person={person} />
+          </div>
+        );
       })}
     </>
   );
@@ -55,13 +60,30 @@ const App = () => {
     };
 
     personService.create(personObject).then((returnedPerson) => {
-      console.log('hola')
+      console.log('hola');
       setPersons(persons.concat(returnedPerson));
     });
 
     // reset input fields
     setNewName('');
     setNewNumber('');
+  };
+
+  const handleRemovePerson = (id) => {
+    const person = persons.find((person) => person.id === id);
+    const result = window.confirm(`Delete ${person.name}?`);
+
+    if (result) {
+      personService
+        .remove(id)
+        .then(() => {
+          setPersons(persons.filter((person) => person.id !== id));
+        })
+        .catch((error) => {
+          alert(`the person '${person.name}' was already deleted from server\n${error}`);
+          setPersons(persons.filter((person) => person.id !== id));
+        });
+    }
   };
 
   const shownPersons = persons.filter((person) => {
@@ -83,7 +105,7 @@ const App = () => {
       />
 
       <h3>Numbers</h3>
-      <Persons persons={shownPersons} />
+      <Persons persons={shownPersons} onRemove={handleRemovePerson} />
     </>
   );
 };
