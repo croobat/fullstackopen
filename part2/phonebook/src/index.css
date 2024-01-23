@@ -77,3 +77,13 @@ button:focus-visible {
   padding: 1em;
   margin-bottom: 1em;
 }
+
+.notification.success {
+  border-color: DarkGreen;
+  color: DarkGreen;
+}
+
+.notification.error {
+  border-color: DarkRed;
+  color: DarkRed;
+}
