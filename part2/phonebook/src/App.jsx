@@ -1,5 +1,7 @@
 import { useState, useEffect } from 'react';
-import axios from 'axios'
+import axios from 'axios';
+
+import personService from './services/persons';
 
 import Filter from './components/Filter';
 import PersonForm from './components/PersonForm';
@@ -22,10 +24,10 @@ const App = () => {
   const [searchName, setSearchName] = useState('');
 
   useEffect(() => {
-    axios.get('http://localhost:3001/persons').then((response) => {
-      setPersons(response.data);
+    personService.getAll().then((initialPersons) => {
+      setPersons(initialPersons);
     });
-  }, [])
+  }, []);
 
   const handleSearchName = (event) => {
     setSearchName(event.target.value);
@@ -52,8 +54,9 @@ const App = () => {
       number: newNumber,
     };
 
-    axios.post('http://localhost:3001/persons', personObject).then((response) => {
-      setPersons(persons.concat(response.data));
+    personService.create(personObject).then((returnedPerson) => {
+      console.log('hola')
+      setPersons(persons.concat(returnedPerson));
     });
 
     // reset input fields
