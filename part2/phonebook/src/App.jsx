@@ -50,7 +50,7 @@ const App = () => {
     event.preventDefault();
 
     if (persons.some((person) => person.name === newName)) {
-      alert(`${newName} is already added to phonebook`);
+      handleUpdatePerson(persons.find((person) => person.name === newName).id);
       return;
     }
 
@@ -60,7 +60,6 @@ const App = () => {
     };
 
     personService.create(personObject).then((returnedPerson) => {
-      console.log('hola');
       setPersons(persons.concat(returnedPerson));
     });
 
@@ -83,6 +82,33 @@ const App = () => {
           alert(`the person '${person.name}' was already deleted from server\n${error}`);
           setPersons(persons.filter((person) => person.id !== id));
         });
+    }
+  };
+
+  const handleUpdatePerson = (id) => {
+    const person = persons.find((person) => person.id === id);
+    const result = window.confirm(
+      `${person.name} is already added to phonebook, replace the old number with a new one?`
+    );
+
+    if (result) {
+      const personObject = {
+        name: person.name,
+        number: newNumber,
+      };
+
+      personService
+        .update(id, personObject)
+        .then((returnedPerson) => {
+          setPersons(persons.map((person) => (person.id !== id ? person : returnedPerson)));
+        })
+        .catch((error) => {
+          alert(`there was an error updating the person '${person.name}'\n${error}`);
+        });
+
+      // reset input fields
+      setNewName('');
+      setNewNumber('');
     }
   };
 
