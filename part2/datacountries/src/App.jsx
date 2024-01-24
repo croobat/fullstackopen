@@ -6,6 +6,7 @@ function App() {
   const [countries, setCountries] = useState([]);
   const [search, setSearch] = useState('');
   const [filteredCountries, setFilteredCountries] = useState([]);
+  const [weatherData, setWeatherData] = useState({});
 
   useEffect(() => {
     countriesService.getAll().then((data) => {
@@ -18,6 +19,8 @@ function App() {
           area: country.area,
           population: country.population,
           languages: country.languages,
+          latitude: country.latlng[0],
+          longitude: country.latlng[1],
         };
       });
 
@@ -33,9 +36,23 @@ function App() {
     setFilteredCountries(filtered);
   }, [search, countries]);
 
+  useEffect(() => {
+    const fetchWeather = async () => {
+      if (filteredCountries.length === 1) {
+        const country = filteredCountries[0];
+        const data = await countriesService.getWeather(country.latitude, country.longitude);
+        setWeatherData({
+          temperature: data.main.temp,
+          windSpeed: data.wind.speed,
+          icon: data.weather[0].icon,
+        });
+      }
+    };
+
+    fetchWeather();
+  }, [filteredCountries]);
+
   const renderCountry = (country) => {
-    console.log(country.languages);
-    // Object { spa: "Spanish" }
     return (
       <>
         <h1>{country.name}</h1>
@@ -47,6 +64,12 @@ function App() {
           <div key={code}>{language}</div>
         ))}
         <img src={country.flagImg} alt={country.name} width="200" style={{ marginTop: 50 }} />
+        <h2>Weather in {country.capital}</h2>
+        <div>temperature</div>
+        <div>{weatherData.temperature} Celsius</div>
+        <img src={`http://openweathermap.org/img/w/${weatherData.icon}.png`} alt="weather icon" />
+        <div>wind</div>
+        <div>{weatherData.windSpeed} m/s</div>
       </>
     );
   };
