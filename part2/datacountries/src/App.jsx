@@ -65,6 +65,7 @@ function App() {
         filteredCountries.map((country) => (
           <div key={country.name}>
             {country.flag} {country.name}
+            <button onClick={() => setSearch(country.name)}>show</button>
           </div>
         ))
       ) : filteredCountries.length > 10 && search.length > 0 ? (
