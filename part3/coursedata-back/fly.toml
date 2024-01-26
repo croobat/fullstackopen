@@ -1,12 +1,15 @@
-# fly.toml app configuration file generated for coursedata-back on 2024-01-26T13:58:40-06:00
+# fly.toml app configuration file generated for coursedata-back-delicate-glitter-626-red-frost-8189 on 2024-01-26T14:02:42-06:00
 #
 # See https://fly.io/docs/reference/configuration/ for information about how to use this file.
 #
 
-app = 'coursedata-back'
+app = 'coursedata-back-delicate-glitter-626-red-frost-8189'
 primary_region = 'qro'
 
 [build]
+
+[env]
+  PORT = '3000'
 
 [http_service]
   internal_port = 3000
