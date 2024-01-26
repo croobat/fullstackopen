@@ -1,4 +1,5 @@
 const express = require('express');
+const cors = require('cors');
 const app = express();
 
 const requestLogger = (req, res, next) => {
@@ -15,11 +16,12 @@ const unknownEndpoint = (req, res) => {
 
 app.use(requestLogger);
 app.use(express.json());
+app.use(cors());
 
 let notes = [
   {
     id: 1,
-    content: 'HTML is easy',
+    content: 'HTML is easy hola soy tony',
     date: '2019-05-30T17:30:31.098Z',
     important: true,
   },
@@ -81,6 +83,26 @@ app.post('/api/notes', (req, res) => {
   notes = notes.concat(note);
 
   res.json(note);
+});
+
+app.put('/api/notes/:id', (req, res) => {
+  // updated note in request body
+  const updatedNote = req.body;
+
+  // find note by id
+  const id = Number(req.params.id);
+  const oldNote = notes.find((note) => note.id === id);
+
+  // if note exists, update it
+  if (oldNote) {
+    const newNote = { ...oldNote, ...updatedNote };
+    notes = notes.map((note) => (note.id !== id ? note : newNote));
+    res.json(newNote);
+  } else {
+    // if note doesn't exist, error
+    res.statusMessage = `Note with id ${id} not found`;
+    res.status(404).end();
+  }
 });
 
 app.delete('/api/notes/:id', (req, res) => {
