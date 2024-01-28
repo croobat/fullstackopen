@@ -1,8 +1,9 @@
 import axios from 'axios';
-const baseUrl = 'http://localhost:3001/persons';
+const baseUrl = '/api/persons';
 
 const getAll = async () => {
   const request = axios.get(baseUrl);
+  console.log('request', baseUrl)
   return request.then((response) => response.data);
 };
 
@@ -11,7 +12,7 @@ const create = async (newPerson) => {
   return request.then((response) => response.data);
 };
 
-const update = (id, person) => {
+const update = async (id, person) => {
   const request = axios.put(`${baseUrl}/${id}`, person);
   return request.then((response) => response.data);
 };
