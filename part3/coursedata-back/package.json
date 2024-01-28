@@ -7,9 +7,9 @@
     "start": "node index.js",
     "dev": "nodemon index.js",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build:ui": "rm -rf dist && cd ../coursedata-front && npm run build --prod && cp -r dist ../coursedata-back && cd ../coursedata-back",
+    "build:ui": "rm -rf dist && cd ../coursedata-front && pnpm run build --prod && cp -r dist ../coursedata-back && cd ../coursedata-back",
     "deploy": "fly deploy",
-    "deploy:full": "npm run build:ui && fly deploy",
+    "deploy:full": "pnpm run build:ui && fly deploy",
     "logs:prod": "fly logs"
   },
   "author": "Tony Ramírez",
