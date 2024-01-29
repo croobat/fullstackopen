@@ -81,9 +81,10 @@ const App = () => {
           setNotification(initialNotification);
         }, 5000);
       })
-      .catch((_) => {
+      .catch((error) => {
+        console.log(error.response.data.error);
         setNotification({
-          message: `${personObject.name} could not be added`,
+          message: `${error.response.data.error}`,
           type: 'error',
         });
         setTimeout(() => {
