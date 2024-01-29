@@ -10,7 +10,8 @@
     "build:ui": "rm -rf dist && cd ../coursedata-front && pnpm run build --prod && cp -r dist ../coursedata-back && cd ../coursedata-back",
     "deploy": "fly deploy",
     "deploy:full": "pnpm run build:ui && fly deploy",
-    "logs:prod": "fly logs"
+    "logs:prod": "fly logs",
+    "lint": "eslint ."
   },
   "author": "Tony Ramírez",
   "license": "MIT",
@@ -22,6 +23,7 @@
   },
   "devDependencies": {
     "@flydotio/dockerfile": "^0.5.0",
+    "eslint": "^8.56.0",
     "nodemon": "^3.0.3"
   }
 }
