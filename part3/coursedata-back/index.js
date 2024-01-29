@@ -18,36 +18,22 @@ const unknownEndpoint = (_, res) => {
   res.status(404).send({ error: 'unknown endpoint' });
 };
 
-app.use(requestLogger);
-app.use(express.json());
-app.use(cors());
-app.use(express.static('dist'));
+const errorHandler = (error, _, res, next) => {
+  console.error(error.message);
 
-let notes = [
-  {
-    id: 1,
-    content: 'HTML is easy hola soy tony',
-    date: '2019-05-30T17:30:31.098Z',
-    important: true,
-  },
-  {
-    id: 2,
-    content: 'Browser can execute only Javascript',
-    date: '2019-05-30T18:39:34.091Z',
-    important: false,
-  },
-  {
-    id: 3,
-    content: 'GET and POST are the most important methods of HTTP protocol',
-    date: '2019-05-30T19:20:14.298Z',
-    important: true,
-  },
-];
+  if (error.name === 'CastError') {
+    return res.status(400).send({ error: 'malformatted id' });
+  }
 
-const generateId = () => {
-  const maxId = notes.length > 0 ? Math.max(...notes.map((n) => n.id)) : 0;
-  return maxId + 1;
+  next(error);
 };
+
+app.use(express.static('dist'));
+app.use(express.json());
+app.use(requestLogger);
+app.use(cors());
+// error handler middleware should be the last loaded middleware
+app.use(errorHandler);
 
 app.get('/', (_, res) => {
   res.send('<h1>Hello World!</h1>');
@@ -59,14 +45,16 @@ app.get('/api/notes', (_, res) => {
   });
 });
 
-app.get('/api/notes/:id', (req, res) => {
-  Note.findById(req.params.id).then((note) => {
-    if (note) {
-      res.json(note);
-    } else {
-      res.status(404).end();
-    }
-  });
+app.get('/api/notes/:id', (req, res, next) => {
+  Note.findById(req.params.id)
+    .then((note) => {
+      if (note) {
+        res.json(note);
+      } else {
+        res.status(404).end();
+      }
+    })
+    .catch((error) => next(error));
 });
 
 app.post('/api/notes', (req, res) => {
@@ -88,31 +76,27 @@ app.post('/api/notes', (req, res) => {
   });
 });
 
-app.put('/api/notes/:id', (req, res) => {
-  // updated note in request body
-  const updatedNote = req.body;
+app.put('/api/notes/:id', (req, res, next) => {
+  const body = req.body;
 
-  // find note by id
-  const id = Number(req.params.id);
-  const oldNote = notes.find((note) => note.id === id);
+  const note = {
+    content: body.content,
+    important: body.important,
+  };
 
-  // if note exists, update it
-  if (oldNote) {
-    const newNote = { ...oldNote, ...updatedNote };
-    notes = notes.map((note) => (note.id !== id ? note : newNote));
-    res.json(newNote);
-  } else {
-    // if note doesn't exist, error
-    res.statusMessage = `Note with id ${id} not found`;
-    res.status(404).end();
-  }
+  Note.findByIdAndUpdate(req.params.id, note, { new: true })
+    .then((updatedNote) => {
+      res.json(updatedNote);
+    })
+    .catch((error) => next(error));
 });
 
-app.delete('/api/notes/:id', (req, res) => {
-  const id = Number(req.params.id);
-  notes = notes.filter((note) => note.id !== id);
-
-  res.status(204).end();
+app.delete('/api/notes/:id', (req, res, next) => {
+  Note.findByIdAndDelete(req.params.id)
+    .then(() => {
+      res.status(204).end();
+    })
+    .catch((error) => next(error));
 });
 
 app.use(unknownEndpoint);
