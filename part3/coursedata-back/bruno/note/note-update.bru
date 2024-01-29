@@ -1,0 +1,22 @@
+meta {
+  name: note-update
+  type: http
+  seq: 4
+}
+
+put {
+  url: {{baseUrl}}/api/notes/{{id}}
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "content": "new note",
+    "important": false
+  }
+}
+
+vars:pre-request {
+  id: 65b707b35990dacae19dbc11
+}

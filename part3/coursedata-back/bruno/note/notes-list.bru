@@ -1,11 +1,11 @@
 meta {
-  name: get_all_notes
+  name: notes-list
   type: http
   seq: 1
 }
 
 get {
-  url: http://localhost:3001/api/notes
+  url: {{baseUrl}}/api/notes
   body: none
   auth: none
 }

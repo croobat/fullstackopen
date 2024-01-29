@@ -1,0 +1,18 @@
+meta {
+  name: note-create
+  type: http
+  seq: 3
+}
+
+post {
+  url: {{baseUrl}}/api/notes
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "content": "new note",
+    "important": true
+  }
+}
