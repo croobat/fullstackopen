@@ -4,7 +4,9 @@ const express = require('express');
 const cors = require('cors');
 const app = express();
 
-const requestLogger = (req, res, next) => {
+const Note = require('./models/note');
+
+const requestLogger = (req, _, next) => {
   console.log('Method:', req.method);
   console.log('Path:  ', req.path);
   console.log('Body:  ', req.body);
@@ -12,7 +14,7 @@ const requestLogger = (req, res, next) => {
   next();
 };
 
-const unknownEndpoint = (req, res) => {
+const unknownEndpoint = (_, res) => {
   res.status(404).send({ error: 'unknown endpoint' });
 };
 
@@ -52,19 +54,19 @@ app.get('/', (_, res) => {
 });
 
 app.get('/api/notes', (_, res) => {
-  res.json(notes);
+  Note.find({}).then((notes) => {
+    res.json(notes);
+  });
 });
 
 app.get('/api/notes/:id', (req, res) => {
-  const id = Number(req.params.id);
-  const note = notes.find((note) => note.id === id);
-
-  if (note) {
-    res.json(note);
-  } else {
-    res.statusMessage = `Note with id ${id} not found`;
-    res.status(404).end();
-  }
+  Note.findById(req.params.id).then((note) => {
+    if (note) {
+      res.json(note);
+    } else {
+      res.status(404).end();
+    }
+  });
 });
 
 app.post('/api/notes', (req, res) => {
@@ -76,16 +78,14 @@ app.post('/api/notes', (req, res) => {
     });
   }
 
-  const note = {
+  const note = new Note({
     content: body.content,
     important: body.important || false,
-    date: new Date(),
-    id: generateId(),
-  };
+  });
 
-  notes = notes.concat(note);
-
-  res.json(note);
+  note.save().then((savedNote) => {
+    res.json(savedNote);
+  });
 });
 
 app.put('/api/notes/:id', (req, res) => {
