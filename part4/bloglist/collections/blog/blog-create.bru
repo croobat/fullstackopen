@@ -1,0 +1,20 @@
+meta {
+  name: blog-create
+  type: http
+  seq: 2
+}
+
+post {
+  url: {{baseUrl}}/api/blogs
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "title": "New blog",
+    "author": "Tony Ramírez",
+    "url": "https://gnu.org",
+    "likes": 3
+  }
+}
