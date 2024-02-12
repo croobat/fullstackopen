@@ -1,0 +1,15 @@
+meta {
+  name: note-show
+  type: http
+  seq: 2
+}
+
+get {
+  url: {{baseUrl}}/api/notes/{{id}}
+  body: none
+  auth: none
+}
+
+vars:pre-request {
+  id: 65b702ca2c657822f403a79a
+}
