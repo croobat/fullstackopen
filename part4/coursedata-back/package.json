@@ -6,7 +6,7 @@
   "scripts": {
     "start": "node index.js",
     "dev": "nodemon index.js",
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "jest --verbose",
     "build:ui": "rm -rf dist && cd ../coursedata-front && pnpm run build --prod && cp -r dist ../coursedata-back && cd ../coursedata-back",
     "deploy": "fly deploy",
     "deploy:full": "pnpm run build:ui && fly deploy",
@@ -24,6 +24,10 @@
   "devDependencies": {
     "@flydotio/dockerfile": "^0.5.0",
     "eslint": "^8.56.0",
+    "jest": "^29.7.0",
     "nodemon": "^3.0.3"
+  },
+  "jest": {
+    "testEnvironment": "node"
   }
 }
