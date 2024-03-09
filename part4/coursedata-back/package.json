@@ -4,9 +4,9 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "node index.js",
-    "dev": "nodemon index.js",
-    "test": "jest --verbose",
+    "start": "cross-env NODE_ENV=production node index.js",
+    "dev": "cross-env NODE_ENV=development nodemon index.js",
+    "test": "cross-env NODE_ENV=test jest",
     "build:ui": "rm -rf dist && cd ../coursedata-front && pnpm run build --prod && cp -r dist ../coursedata-back && cd ../coursedata-back",
     "deploy": "fly deploy",
     "deploy:full": "pnpm run build:ui && fly deploy",
@@ -19,7 +19,8 @@
     "cors": "^2.8.5",
     "dotenv": "^16.4.1",
     "express": "^4.18.2",
-    "mongoose": "^8.1.1"
+    "mongoose": "^8.1.1",
+    "cross-env": "^7.0.3"
   },
   "devDependencies": {
     "@flydotio/dockerfile": "^0.5.0",
