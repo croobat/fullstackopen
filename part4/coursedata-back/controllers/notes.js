@@ -20,7 +20,7 @@ notesRouter.get('/:id', (req, res, next) => {
 })
 
 notesRouter.post('/', (req, res, next) => {
-  const body = req.body
+  const { body } = req
 
   if (body.content === undefined) {
     return res.status(400).json({ error: 'content missing' })
@@ -37,10 +37,12 @@ notesRouter.post('/', (req, res, next) => {
       res.json(savedNote)
     })
     .catch((error) => next(error))
+
+  return null
 })
 
 notesRouter.put('/:id', (req, res, next) => {
-  const body = req.body
+  const { body } = req
 
   const note = {
     content: body.content,
@@ -63,7 +65,7 @@ notesRouter.delete('/:id', (req, res, next) => {
 })
 
 notesRouter.put('/:id', (req, res, next) => {
-  const body = req.body
+  const { body } = req
 
   const note = {
     content: body.content,

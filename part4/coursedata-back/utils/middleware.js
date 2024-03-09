@@ -17,15 +17,17 @@ const errorHandler = (error, _, res, next) => {
 
   if (error.name === 'CastError') {
     return res.status(400).send({ error: 'malformatted id' })
-  } else if (error.name === 'ValidationError') {
+  } if (error.name === 'ValidationError') {
     return res.status(400).json({ error: error.message })
   }
 
   next(error)
+
+  return null
 }
 
 module.exports = {
   requestLogger,
   unknownEndpoint,
-  errorHandler
+  errorHandler,
 }

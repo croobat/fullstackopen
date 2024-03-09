@@ -1,54 +1,55 @@
 module.exports = {
-  'env': {
-    'node': true,
-    'commonjs': true,
-    'es2021': true,
-    'jest': true
+  env: {
+    node: true,
+    commonjs: true,
+    es2021: true,
+    jest: true,
   },
-  'extends': 'eslint:recommended',
-  'overrides': [
+  extends: ['airbnb', 'eslint:recommended'],
+  overrides: [
     {
-      'env': {
-        'node': true
+      env: {
+        node: true,
       },
-      'files': [
-        '.eslintrc.{js,cjs}'
+      files: [
+        '.eslintrc.{js,cjs}',
       ],
-      'parserOptions': {
-        'sourceType': 'script'
-      }
-    }
+      parserOptions: {
+        sourceType: 'script',
+      },
+    },
   ],
-  'parserOptions': {
-    'ecmaVersion': 'latest'
+  parserOptions: {
+    ecmaVersion: 'latest',
   },
-  'rules': {
-    'indent': [
+  rules: {
+    indent: [
       'error',
-      2
+      2,
     ],
     'linebreak-style': ['error', 'unix'],
-    'quotes': [
+    quotes: [
       'error',
       'single',
     ],
-    'semi': [
+    semi: [
       'error',
-      'never'
+      'never',
     ],
-    'eqeqeq': 'error',
+    eqeqeq: 'error',
     'no-trailing-spaces': 'error',
     'object-curly-spacing': [
       'error',
-      'always'
+      'always',
     ],
     'arrow-spacing': [
       'error',
       {
-        'before': true,
-        'after': true,
+        before: true,
+        after: true,
       },
     ],
     'no-console': 0,
-  }
+    'no-underscore-dangle': 0,
+  },
 }
