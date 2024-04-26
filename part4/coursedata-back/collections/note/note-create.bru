@@ -16,3 +16,9 @@ body:json {
     "important": true
   }
 }
+
+script:pre-request {
+  const { average } = require("./lib/test");
+  
+  console.log(average([1,2,3]));
+}
