@@ -1,19 +1,24 @@
+const { test, describe } = require('node:test')
+const assert = require('node:assert')
+
 const { reverse } = require('../utils/for_testing')
 
-test('reverse of a', () => {
-  const result = reverse('a')
+describe('reverse', () => {
+  test('reverse of a', () => {
+    const result = reverse('a')
 
-  expect(result).toBe('a')
-})
+    assert.strictEqual(result, 'a')
+  })
 
-test('reverse of react', () => {
-  const result = reverse('react')
+  test('reverse of react', () => {
+    const result = reverse('react')
 
-  expect(result).toBe('tcaer')
-})
+    assert.strictEqual(result, 'tcaer')
+  })
 
-test('reverse of releveler', () => {
-  const result = reverse('releveler')
+  test('reverse of releveler', () => {
+    const result = reverse('releveler')
 
-  expect(result).toBe('releveler')
+    assert.strictEqual(result, 'releveler')
+  })
 })

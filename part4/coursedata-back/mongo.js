@@ -10,19 +10,19 @@ const password = process.argv[2]
 const url = `mongodb+srv://tony:${password}@cluster0.ajenvwu.mongodb.net/noteApp?retryWrites=true&w=majority`
 
 mongoose.set('strictQuery', false)
-mongoose.connect(url)
-
-const noteSchema = new mongoose.Schema({
-  content: String,
-  important: Boolean,
-  date: Date,
-})
-
-const Note = mongoose.model('Note', noteSchema)
-
-Note.find({ important: true }).then((result) => {
-  result.forEach((note) => {
-    console.log(note)
+mongoose.connect(url).then(() => {
+  const noteSchema = new mongoose.Schema({
+    content: String,
+    important: Boolean,
+    date: Date,
   })
-  mongoose.connection.close()
+
+  const Note = mongoose.model('Note', noteSchema)
+
+  Note.find({ important: true }).then((result) => {
+    result.forEach((note) => {
+      console.log(note)
+    })
+    mongoose.connection.close()
+  })
 })
