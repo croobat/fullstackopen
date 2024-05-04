@@ -4,7 +4,7 @@ module.exports = {
     'commonjs': true,
     'es2021': true,
   },
-  'extends': 'eslint:recommended',
+  'extends': ['airbnb', 'eslint:recommended'],
   'overrides': [
     {
       'env': {
@@ -49,5 +49,6 @@ module.exports = {
       },
     ],
     'no-console': 0,
+    'no-underscore-dangle': 0,
   }
 }
