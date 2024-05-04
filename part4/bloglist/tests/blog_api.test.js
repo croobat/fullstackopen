@@ -53,6 +53,20 @@ describe('blogs api', () => {
     assert.ok(titles.includes('new blog'))
   })
 
+  test('if likes is missing, it is set to 0', async () => {
+    const newBlog = {
+      title: 'new blog',
+    }
+    await api
+      .post('/api/blogs')
+      .send(newBlog)
+      .expect(201)
+      .expect('Content-Type', /application\/json/)
+
+    const response = await api.get('/api/blogs')
+    assert.equal(response.body[2].likes, 0)
+  })
+
   after(async () => {
     await mongoose.connection.close()
   })

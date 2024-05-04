@@ -2,7 +2,7 @@ const blogsRouter = require('express').Router()
 const Blog = require('../models/blog')
 
 blogsRouter.get('/', (request, response) => {
-  Blog.find({}).then(blogs => {
+  Blog.find({}).then((blogs) => {
     response.json(blogs)
   })
 })
@@ -10,7 +10,10 @@ blogsRouter.get('/', (request, response) => {
 blogsRouter.post('/', (request, response) => {
   const blog = new Blog(request.body)
 
-  blog.save().then(result => {
+  // if no likes, set to 0
+  if (!blog.likes) blog.likes = 0
+
+  blog.save().then((result) => {
     response.status(201).json(result)
   })
 })
