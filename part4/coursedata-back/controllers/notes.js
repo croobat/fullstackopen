@@ -28,11 +28,16 @@ notesRouter.post('/', async (req, res) => {
   const note = new Note({
     content: body.content,
     important: body.important || false,
-    date: new Date(),
   })
 
+  if (!body.content) {
+    return res.status(400).json({
+      error: 'content missing',
+    })
+  }
+
   const savedNote = await note.save()
-  res.status(201).json(savedNote)
+  return res.status(201).json(savedNote)
 })
 
 notesRouter.put('/:id', (req, res, next) => {

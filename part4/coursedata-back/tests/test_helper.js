@@ -4,19 +4,17 @@ const initialNotes = [
   {
     content: 'HTML is easy',
     important: false,
-    date: new Date(),
   },
   {
     content: 'Browser can execute only Javascript',
     important: true,
-    date: new Date(),
   },
 ]
 
 const nonExistingId = async () => {
-  const note = new Note({ content: 'willremovethissoon', date: new Date() })
+  const note = new Note({ content: 'willremovethissoon' })
   await note.save()
-  await note.remove()
+  await note.deleteOne({ _id: note._id })
 
   return note._id.toString()
 }
