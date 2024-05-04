@@ -32,6 +32,11 @@ describe('blogs api', () => {
     assert.equal(response.body.length, helper.initialBlogs.length)
   })
 
+  test('blog id is named id instead of _id', async () => {
+    const response = await api.get('/api/blogs')
+    assert.ok(response.body[0].id)
+  })
+
   after(async () => {
     await mongoose.connection.close()
   })
