@@ -40,6 +40,7 @@ describe('blogs api', () => {
   test('a valid blog can be added', async () => {
     const newBlog = {
       title: 'new blog',
+      url: 'http://newblog.com',
     }
     await api
       .post('/api/blogs')
@@ -56,6 +57,7 @@ describe('blogs api', () => {
   test('if likes is missing, it is set to 0', async () => {
     const newBlog = {
       title: 'new blog',
+      url: 'http://newblog.com',
     }
     await api
       .post('/api/blogs')
@@ -65,6 +67,14 @@ describe('blogs api', () => {
 
     const response = await api.get('/api/blogs')
     assert.equal(response.body[2].likes, 0)
+  })
+
+  test('if title or url is missing, return 400', async () => {
+    const newBlog = {}
+    await api
+      .post('/api/blogs')
+      .send(newBlog)
+      .expect(400)
   })
 
   after(async () => {
