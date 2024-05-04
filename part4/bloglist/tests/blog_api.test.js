@@ -96,6 +96,25 @@ describe('when there is initially some blogs stored', () => {
     })
   })
 
+  describe('updating', () => {
+    test('a blog can be updated', async () => {
+      const response = await api.get('/api/blogs')
+      const { id } = response.body[0]
+
+      const updatedBlog = { title: 'updated title', url: 'http://updatedurl.com', likes: 100 }
+
+      await api
+        .put(`/api/blogs/${id}`)
+        .send(updatedBlog)
+        .expect(200)
+        .expect('Content-Type', /application\/json/)
+
+      const blogsAtEnd = await helper.blogsInDb()
+      const titles = blogsAtEnd.map((r) => r.title)
+      assert.ok(titles.includes('updated title'))
+    })
+  })
+
   after(async () => {
     await mongoose.connection.close()
   })
