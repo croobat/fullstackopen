@@ -13,12 +13,13 @@ post {
 body:json {
   {
     "content": "new note",
-    "important": true
+    "important": true,
+    "userId": "6636c0187141ab15ead5d1fd"
   }
 }
 
 script:pre-request {
-  const { average } = require("./lib/test");
+  //const { average } = require("./lib/test");
   
-  console.log(average([1,2,3]));
+  // console.log(average([1,2,3]));
 }
