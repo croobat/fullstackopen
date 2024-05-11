@@ -7,14 +7,22 @@ meta {
 post {
   url: {{baseUrl}}/api/notes
   body: json
-  auth: none
+  auth: bearer
+}
+
+headers {
+  Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InRvbnkxIiwiaWQiOiI2NjM2YmZmZDcxNDFhYjE1ZWFkNWQxZmEiLCJpYXQiOjE3MTQ5NzQ3NzB9.cAvrrP4xad-YysmMsYpNocOdzXTwJf2AqPyKUdWkmL0
+}
+
+auth:bearer {
+  token: 
 }
 
 body:json {
   {
     "content": "new note",
     "important": true,
-    "userId": "6636c0187141ab15ead5d1fd"
+    "userId": "6636bffd7141ab15ead5d1fa"
   }
 }
 
