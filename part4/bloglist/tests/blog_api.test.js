@@ -85,7 +85,6 @@ describe('when there is initially some blogs stored', () => {
     test('a blog can be deleted', async () => {
       const response = await api.get('/api/blogs')
       const { id } = response.body[0]
-      console.log('response.body)', response.body)
 
       await api
         .delete(`/api/blogs/${id}`)
