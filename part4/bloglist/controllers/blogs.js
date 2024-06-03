@@ -14,10 +14,10 @@ blogsRouter.get('/', async (request, response) => {
 
 blogsRouter.post('/', async (request, response) => {
   const {
-    title, author, url, likes, token,
+    title, author, url, likes,
   } = request.body
 
-  const decodedToken = jwt.verify(token, process.env.SECRET)
+  const decodedToken = jwt.verify(request.token, process.env.SECRET)
   if (!decodedToken.id) return response.status(401).json({ error: 'token missing or invalid' })
 
   // if no title or url, return 400
