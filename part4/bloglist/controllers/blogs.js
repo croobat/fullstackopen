@@ -9,7 +9,7 @@ blogsRouter.get('/', async (request, response) => {
     username: 1, name: 1, id: 1,
   })
 
-  response.json(blogs)
+  return response.json(blogs)
 })
 
 blogsRouter.post('/', async (request, response) => {
@@ -25,8 +25,8 @@ blogsRouter.post('/', async (request, response) => {
     return response.status(400).json({ error: 'title or url missing' })
   }
 
-  // get first user found in db
-  const user = await User.findOne({})
+  // get tony1 user found in db
+  const user = await User.findOne({ username: 'tony1' })
 
   const blog = new Blog({
     title,
@@ -44,8 +44,24 @@ blogsRouter.post('/', async (request, response) => {
 })
 
 blogsRouter.delete('/:id', async (request, response) => {
-  await Blog.findByIdAndDelete(request.params.id)
-  response.status(204).end()
+  if (!request || !request.token) return response.status(401).json({ error: 'token missing or invalid' })
+
+  const { id } = request.params
+
+  const decodedToken = jwt.verify(request.token, process.env.SECRET)
+  if (!decodedToken.id) return response.status(401).json({ error: 'token missing or invalid' })
+  const userId = decodedToken.id
+
+  const blog = await Blog.findById(id)
+  if (!blog) return response.status(404).json({ error: 'blog not found' })
+  // populate user
+
+  if (!(userId.toString() === blog.user.toString())) {
+    return response.status(401).json({ error: 'unauthorized' })
+  }
+
+  await Blog.findByIdAndDelete(id)
+  return response.status(204).end()
 })
 
 blogsRouter.put('/:id', async (request, response) => {
