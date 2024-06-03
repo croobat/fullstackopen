@@ -3,7 +3,6 @@ const baseUrl = '/api/persons';
 
 const getAll = async () => {
   const request = axios.get(baseUrl);
-  console.log('request', baseUrl)
   return request.then((response) => response.data);
 };
 
