@@ -1,0 +1,23 @@
+meta {
+  name: user-create
+  type: http
+  seq: 2
+}
+
+post {
+  url: {{baseUrl}}/api/users
+  body: json
+  auth: bearer
+}
+
+auth:bearer {
+  token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ
+}
+
+body:json {
+  {
+    "username": "tony1",
+    "name": "Tony Ramirez",
+    "password": "123"
+  }
+}

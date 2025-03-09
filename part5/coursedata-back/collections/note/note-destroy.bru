@@ -1,0 +1,22 @@
+meta {
+  name: note-destroy
+  type: http
+  seq: 5
+}
+
+delete {
+  url: {{baseUrl}}/api/notes/{{id}}
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "content": "new note",
+    "important": false
+  }
+}
+
+vars:pre-request {
+  id: 65b702ca2c657822f403a79a
+}
