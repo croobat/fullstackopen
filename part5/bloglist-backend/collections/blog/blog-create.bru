@@ -1,0 +1,25 @@
+meta {
+  name: blog-create
+  type: http
+  seq: 2
+}
+
+post {
+  url: {{baseUrl}}/api/blogs
+  body: json
+  auth: bearer
+}
+
+auth:bearer {
+  token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InRvbnkzIiwiaWQiOiI2NjVkNDMwNDk5OTEzZDcyZWZiNGE4ZWEiLCJpYXQiOjE3MTczODgwNDV9.v3yy3Znk5q-cPZPC4SRcy0Xfq8G0oBfHDfxPaIeyJik
+}
+
+body:json {
+  {
+    "title": "New blog",
+    "author": "Tony Ramírez",
+    "url": "https://gnu.org",
+    "likes": 3,
+    "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InRvbnkxIiwiaWQiOiI2NjM2YmZmZDcxNDFhYjE1ZWFkNWQxZmEiLCJpYXQiOjE3MTY2Njg2MDQsImV4cCI6MTcxNjY3MjIwNH0.fQfNGtMp8tEViN-FoXm8qcqZW2egW1jxpEsHw47bHAI"
+  }
+}
