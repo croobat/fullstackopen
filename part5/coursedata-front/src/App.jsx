@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 
 import noteService from "./services/notes";
 import loginService from "./services/login";
@@ -13,6 +13,9 @@ import NoteForm from "./components/NoteForm";
 import "./index.css";
 
 const App = () => {
+	const loginFormRef = useRef();
+	const noteFormRef = useRef();
+
   const [notes, setNotes] = useState([]);
   const [showAll, setShowAll] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
@@ -24,9 +27,11 @@ const App = () => {
 
   const addNote = async (noteObject) => {
     try {
+			noteFormRef.current.toggleVisibility();
       const returnedNote = await noteService.create(noteObject);
       setNotes(notes.concat(returnedNote));
     } catch (exception) {
+			console.log(exception);
       setErrorMessage("Note creation failed");
       setTimeout(() => {
         setErrorMessage(null);
@@ -78,7 +83,7 @@ const App = () => {
 
   const loginForm = () => {
     return (
-      <Togglable buttonLabel="login">
+      <Togglable buttonLabel="login" ref={loginFormRef}>
         <LoginForm
           username={username}
           password={password}
@@ -91,7 +96,7 @@ const App = () => {
   };
 
   const noteForm = () => (
-    <Togglable buttonLabel="new note">
+    <Togglable buttonLabel="new note" ref={noteFormRef}>
       <NoteForm createNote={addNote} />
     </Togglable>
   );
