@@ -1,8 +1,5 @@
-const jwt = require('jsonwebtoken')
 const blogsRouter = require('express').Router()
-
 const middleware = require('../utils/middleware')
-
 const Blog = require('../models/blog')
 
 blogsRouter.get('/', async (request, response) => {
@@ -20,8 +17,9 @@ blogsRouter.post('/', middleware.userExtractor, async (request, response) => {
 
   const { user } = request
 
-  const decodedToken = jwt.verify(request.token, process.env.SECRET)
-  if (!decodedToken.id) return response.status(401).json({ error: 'token missing or invalid' })
+  if (!user) {
+    return response.status(401).json({ error: 'user authentication required' })
+  }
 
   // if no title or url, return 400
   if (!title || !url) {
