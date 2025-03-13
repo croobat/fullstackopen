@@ -5,6 +5,7 @@ import blogService from "./services/blogs";
 
 import Blog from "./components/Blog";
 import BlogForm from "./components/BlogForm";
+import { useMemo } from "react";
 
 const App = () => {
   const [blogs, setBlogs] = useState([]);
@@ -12,6 +13,10 @@ const App = () => {
   const [password, setPassword] = useState("");
   const [user, setUser] = useState(null);
   const [message, setMessage] = useState(null);
+
+  const sortedBlogs = useMemo(() => {
+    return blogs.sort((a, b) => b.likes - a.likes);
+  }, [blogs]);
 
   useEffect(() => {
     blogService.getAll().then((blogs) => setBlogs(blogs));
@@ -114,7 +119,7 @@ const App = () => {
 
       <BlogForm createBlog={createBlog} />
 
-      {blogs.map((blog) => (
+      {sortedBlogs.map((blog) => (
         <Blog
           key={blog.id}
           blog={blog}
