@@ -112,7 +112,7 @@ const App = () => {
 
   return (
     <div>
-      <h2>blogs</h2>
+      <h2>Blogs</h2>
       {message && <div>MESSAGE: {message}</div>}
       <p>{user.name} logged-in</p>
       <button onClick={handleLogout}>logout</button>

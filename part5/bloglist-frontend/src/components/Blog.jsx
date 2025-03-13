@@ -1,4 +1,5 @@
 import { useState } from "react";
+import PropTypes from "prop-types";
 
 import blogService from "../services/blogs";
 
@@ -81,6 +82,11 @@ const styles = {
     backgroundColor: "red",
     color: "white",
   },
+};
+
+Blog.propTypes = {
+  blog: PropTypes.object.isRequired,
+  onUpdate: PropTypes.func.isRequired,
 };
 
 export default Blog;
