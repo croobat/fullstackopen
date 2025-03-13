@@ -1,7 +1,25 @@
 import { useState } from "react";
 
-const Blog = ({ blog }) => {
+import blogService from "../services/blogs";
+
+const Blog = ({ blog, onUpdate }) => {
   const [expanded, setExpanded] = useState(false);
+
+  const handleLike = async () => {
+    try {
+      const updatedBlog = {
+        ...blog,
+        user: blog.user.id,
+        likes: blog.likes + 1,
+      };
+
+      await blogService.update(blog.id, updatedBlog);
+
+      onUpdate();
+    } catch (error) {
+      console.error(error);
+    }
+  };
 
   return (
     <div style={styles.blogStyle}>
@@ -19,8 +37,7 @@ const Blog = ({ blog }) => {
         <div>
           <div>{blog.url}</div>
           <div>
-            likes: {blog.likes}{" "}
-            <button onClick={() => console.log("like")}>like</button>
+            likes: {blog.likes} <button onClick={handleLike}>like</button>
           </div>
           <div>{blog.user.name}</div>
         </div>

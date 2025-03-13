@@ -115,7 +115,13 @@ const App = () => {
       <BlogForm createBlog={createBlog} />
 
       {blogs.map((blog) => (
-        <Blog key={blog.id} blog={blog} />
+        <Blog
+          key={blog.id}
+          blog={blog}
+          onUpdate={() => {
+            blogService.getAll().then((blogs) => setBlogs(blogs));
+          }}
+        />
       ))}
     </div>
   );
