@@ -21,8 +21,23 @@ const Blog = ({ blog, onUpdate }) => {
     }
   };
 
+  const handleRemove = async () => {
+    const confirm = window.confirm(
+      `Remove blog ${blog.title} by ${blog.author}`,
+    );
+
+    if (!confirm) return;
+
+    try {
+      await blogService.remove(blog.id);
+      onUpdate();
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
   return (
-    <div style={styles.blogStyle}>
+    <div style={styles.blog}>
       <div style={styles.row}>
         <div>
           {blog.title} - {blog.author}
@@ -40,6 +55,10 @@ const Blog = ({ blog, onUpdate }) => {
             likes: {blog.likes} <button onClick={handleLike}>like</button>
           </div>
           <div>{blog.user.name}</div>
+
+          <button style={styles.removeButton} onClick={handleRemove}>
+            remove
+          </button>
         </div>
       )}
     </div>
@@ -47,7 +66,7 @@ const Blog = ({ blog, onUpdate }) => {
 };
 
 const styles = {
-  blogStyle: {
+  blog: {
     padding: 8,
     border: "solid",
     borderWidth: 1,
@@ -57,6 +76,10 @@ const styles = {
     display: "flex",
     justifyContent: "space-between",
     alignItems: "center",
+  },
+  removeButton: {
+    backgroundColor: "red",
+    color: "white",
   },
 };
 
