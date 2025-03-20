@@ -1,4 +1,4 @@
-import { render, screen } from "@testing-library/react";
+import { render } from "@testing-library/react";
 import Note from "./Note";
 
 test("renders note component", () => {
@@ -7,11 +7,10 @@ test("renders note component", () => {
     important: true,
   };
 
-  render(<Note note={note} />);
+  const { container } = render(<Note note={note} />);
 
-  const element = screen.getByText(
+  const div = container.querySelector(".note");
+  expect(div).toHaveTextContent(
     "Component testing is done with react-testing-library",
   );
-
-  expect(element).toBeDefined();
 });
