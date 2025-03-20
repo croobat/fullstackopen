@@ -26,9 +26,22 @@ test("clicking the button calls event handler once", async () => {
 
   render(<Note note={note} toggleImportance={mockHandler} />);
 
-	const user = userEvent.setup();
-	const button = screen.getByText('make not important');
-	await user.click(button);
-	
-	expect(mockHandler.mock.calls).toHaveLength(1);
+  const user = userEvent.setup();
+  const button = screen.getByText("make not important");
+  await user.click(button);
+
+  expect(mockHandler.mock.calls).toHaveLength(1);
+});
+
+test("does not render this", () => {
+  const note = {
+    content: "This is a reminder",
+    important: true,
+  };
+
+  render(<Note note={note} />);
+
+  const element = screen.queryByText("do not want this thing to be rendered");
+
+  expect(element).toBeNull();
 });
